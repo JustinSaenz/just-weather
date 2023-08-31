@@ -19,23 +19,19 @@ function App() {
     console.log(data)
 
     setIpData(data)
-
   }
 
   async function featchWeatherData() {
-    // https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API%20key}
-
     console.log('Fetching Weather Data')
 
+    // TODO: use imperial units for the api call
     let url = `${weatherapi}?lat=${ipData.latitude}&lon=${ipData.longitude}&appid=${API_KEY}`
     console.log(url)
 
     const res = await fetch(url)
-    console.log()
 
     const data = await res.json()
     console.log(data)
-
 
     setWeatherData(data)
   }
@@ -48,24 +44,15 @@ function App() {
   function convertKelvin(temp) {
     if (temp) {
       const f = (temp - 273.15) * (9 / 5) + 32
-
       return f.toFixed(0)
-
-    
     }
-    
   }
-
-
-
 
   return (
     <div>
-
       <h1>Just Weather ☀️</h1>
 
       <div>
-
         <div>
           <button onClick={fetchapi}>Fetch IP</button>
           <button
