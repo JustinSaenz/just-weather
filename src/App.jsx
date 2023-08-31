@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import './App.css'
 
+const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
+
 function App() {
   const [count, setCount] = useState(0);
 
   const [ipData, setIpData] = useState();
 
-  const ipapi = 'https://ipapi.co/json/'
+  const [weatherData, setWeatherData] = useState();
 
+  const ipapi = 'https://ipapi.co/json/'
   const weatherapi = 'https://api.openweathermap.org/data/2.5/weather'
 
   const fetchapi = async () => {
@@ -18,32 +21,38 @@ function App() {
 
     const data = await res.json()
     console.log(data)
-    
-    setIpData(data) 
+
+    setIpData(data)
 
   }
 
-  const increment = () => {
-    console.log('Increment the value of count')
-    setCount((prev) => prev + 1)
-  }
+  async function featchWeatherData() {
+    // https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API%20key}
 
-  const decrement = () => {
-    console.log("Decrement this value")
-    setCount((prev) => prev - 1)
+    console.log('Fetching Weather Data')
+
+    let url = `${weatherapi}?lat=${ipData.latitude}&lon=${ipData.longitude}&appid=${API_KEY}`
+    console.log(url)
+
+    const res = await fetch(url)
+    console.log()
+
+    const data = await res.json()
+    console.log(data)
+
+
+    setWeatherData(data)
   }
 
   return (
     <div>
 
-      <h1>Hello World!</h1>
+      <h1>Just Weather ☀️</h1>
 
       <div>
-        The count is {count}
         <div>
-          <button onClick={() => setCount(prev => prev + 1)} >Add 1</button>
-          <button onClick={increment}>Increment</button>
-          <button onClick={fetchapi}>call fetch function we just created</button>
+          <button onClick={fetchapi}>Fetch IP</button>
+          <button disabled={ipData === undefined? true : false } onClick={featchWeatherData}>Fetch Weather</button>
         </div>
         <div>
           {
@@ -51,6 +60,11 @@ function App() {
           }
           <p>Latitude: {ipData?.latitude ?? "No Latitude"}</p>
           <p>Longitude: {ipData?.longitude ?? "No Longitude"}</p>
+        </div>
+        <div>
+          <p>
+            The humidity is: {weatherData?.main.humidity ?? "No humidity"}
+          </p>
         </div>
       </div>
     </div>
