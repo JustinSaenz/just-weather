@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
@@ -9,32 +9,47 @@ function App() {
   const [ipData, setIpData] = useState()
   const [weatherData, setWeatherData] = useState()
 
-  const fetchapi = async () => {
-    console.log('Fetching ip')
+  // This will run once when the page loads
+  // Get the user's IP Info and set it to ipData state variable
+  useEffect(() => {
+    // get the user's IP Information
+    const fetchapi = async () => {
+      console.log('Fetching ip')
 
-    const res = await fetch(ipapi)
-    console.log(res)
+      const res = await fetch(ipapi)
+      console.log(res)
 
-    const data = await res.json()
-    console.log(data)
+      const data = await res.json()
+      console.log(data)
 
-    setIpData(data)
-  }
+      setIpData(data)
+    }
 
-  async function featchWeatherData() {
-    console.log('Fetching Weather Data')
+    fetchapi()
+  }, []) // empty dependency array means run once when page loads
 
-    // TODO: use imperial units for the api call
-    let url = `${weatherapi}?lat=${ipData.latitude}&lon=${ipData.longitude}&appid=${API_KEY}`
-    console.log(url)
+  // This will run anytime the ipData state variable changes
+  // If ipData is defined, call the fetchWeatherData function and
+  // set the response to weatherData state variable
+  useEffect(() => {
+    async function fetchWeatherData() {
+      console.log('Fetching Weather Data')
 
-    const res = await fetch(url)
+      // TODO: use imperial units for the api call
+      let url = `${weatherapi}?lat=${ipData.latitude}&lon=${ipData.longitude}&appid=${API_KEY}`
+      console.log(url)
 
-    const data = await res.json()
-    console.log(data)
+      const res = await fetch(url)
 
-    setWeatherData(data)
-  }
+      const data = await res.json()
+      console.log(data)
+
+      setWeatherData(data)
+    }
+    if (ipData) {
+      fetchWeatherData()
+    }
+  }, [ipData])
 
   /**
    * Convert a temperature from Kelvin to Fahrenheit
@@ -53,16 +68,6 @@ function App() {
       <h1>Just Weather ☀️</h1>
 
       <div>
-        <div>
-          <button onClick={fetchapi}>Fetch IP</button>
-          <button
-            disabled={ipData === undefined ? true : false}
-            onClick={featchWeatherData}
-          >
-            Fetch Weather
-          </button>
-        </div>
-
         <div>
           {ipData ? ipData.city : 'no data yet'}
 
