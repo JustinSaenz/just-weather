@@ -40,8 +40,12 @@ function App() {
     setWeatherData(data)
   }
 
+  /**
+   * Convert a temperature from Kelvin to Fahrenheit
+   * @param {Number} temp - the temperature to convert
+   * @returns {Number | undefined} - the converted temperature
+   */
   function convertKelvin(temp) {
-
     if (temp) {
       const f = (temp - 273.15) * (9 / 5) + 32
 
