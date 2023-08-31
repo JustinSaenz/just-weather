@@ -44,29 +44,54 @@ function App() {
     setWeatherData(data)
   }
 
+  function convertKelvin(temp) {
+
+    if (temp) {
+      const f = (temp - 273.15) * (9 / 5) + 32
+
+      return f.toFixed(0)
+
+    
+    }
+    
+  }
+
+
+
+
   return (
     <div>
 
       <h1>Just Weather ☀️</h1>
 
       <div>
+
         <div>
+
           <button onClick={fetchapi}>Fetch IP</button>
-          <button disabled={ipData === undefined? true : false } onClick={featchWeatherData}>Fetch Weather</button>
+          <button disabled={ipData === undefined ? true : false} onClick={featchWeatherData}>Fetch Weather</button>
+
         </div>
+
         <div>
-          {
-            ipData ? ipData.city : "no data yet"
-          }
+
+          {ipData ? ipData.city : "no data yet"}
+
           <p>Latitude: {ipData?.latitude ?? "No Latitude"}</p>
           <p>Longitude: {ipData?.longitude ?? "No Longitude"}</p>
+
         </div>
+
         <div>
-          <p>
-            The humidity is: {weatherData?.main.humidity ?? "No humidity"}
-          </p>
+
+          <p>Humidity: {weatherData?.main.humidity ?? "No Humidity"}</p>
+          <p>Temperature: { weatherData?.main?.temp ? `${convertKelvin(weatherData?.main?.temp)}°F` : "No Tempurature"}</p>
+
+
         </div>
+
       </div>
+
     </div>
   )
 }
