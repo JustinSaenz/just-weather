@@ -2,16 +2,12 @@ import { useState } from 'react'
 import './App.css'
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
+const ipapi = 'https://ipapi.co/json/'
+const weatherapi = 'https://api.openweathermap.org/data/2.5/weather'
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  const [ipData, setIpData] = useState();
-
-  const [weatherData, setWeatherData] = useState();
-
-  const ipapi = 'https://ipapi.co/json/'
-  const weatherapi = 'https://api.openweathermap.org/data/2.5/weather'
+  const [ipData, setIpData] = useState()
+  const [weatherData, setWeatherData] = useState()
 
   const fetchapi = async () => {
     console.log('Fetching ip')
@@ -67,31 +63,32 @@ function App() {
       <div>
 
         <div>
-
           <button onClick={fetchapi}>Fetch IP</button>
-          <button disabled={ipData === undefined ? true : false} onClick={featchWeatherData}>Fetch Weather</button>
-
+          <button
+            disabled={ipData === undefined ? true : false}
+            onClick={featchWeatherData}
+          >
+            Fetch Weather
+          </button>
         </div>
 
         <div>
+          {ipData ? ipData.city : 'no data yet'}
 
-          {ipData ? ipData.city : "no data yet"}
-
-          <p>Latitude: {ipData?.latitude ?? "No Latitude"}</p>
-          <p>Longitude: {ipData?.longitude ?? "No Longitude"}</p>
-
+          <p>Latitude: {ipData?.latitude ?? 'No Latitude'}</p>
+          <p>Longitude: {ipData?.longitude ?? 'No Longitude'}</p>
         </div>
 
         <div>
-
-          <p>Humidity: {weatherData?.main.humidity ?? "No Humidity"}</p>
-          <p>Temperature: { weatherData?.main?.temp ? `${convertKelvin(weatherData?.main?.temp)}°F` : "No Tempurature"}</p>
-
-
+          <p>Humidity: {weatherData?.main.humidity ?? 'No Humidity'}</p>
+          <p>
+            Temperature:{' '}
+            {weatherData?.main?.temp
+              ? `${convertKelvin(weatherData?.main?.temp)}°F`
+              : 'No Tempurature'}
+          </p>
         </div>
-
       </div>
-
     </div>
   )
 }
