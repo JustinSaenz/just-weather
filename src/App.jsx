@@ -66,6 +66,8 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 const ipapi = 'https://ipapi.co/json/'
 const weatherapi = 'https://api.openweathermap.org/data/2.5/weather'
 
+
+
 function App() {
   const [ipData, setIpData] = useState()
   const [weatherData, setWeatherData] = useState(
@@ -104,7 +106,7 @@ function App() {
       console.log('Fetching Weather Data')
 
       // TODO: use imperial units for the api call
-      let url = `${weatherapi}?lat=${ipData.latitude}&lon=${ipData.longitude}&appid=${API_KEY}`
+      let url = `${weatherapi}?lat=${ipData.latitude}&lon=${ipData.longitude}&appid=${API_KEY}&units=imperial`
       console.log(url)
 
       const res = await fetch(url)
@@ -124,13 +126,7 @@ function App() {
    * @param {Number} temp - the temperature to convert
    * @returns {Number | undefined} - the converted temperature
    */
-  function convertKelvin(temp) {
-    if (temp) {
-      const f = (temp - 273.15) * (9 / 5) + 32
-      return f.toFixed(0)
-    }
-  }
-
+  
   return (
     <div>
       <h1>Just Weather ☀️</h1>
@@ -148,7 +144,7 @@ function App() {
           <p>
             Temperature:{' '}
             {weatherData?.main?.temp
-              ? `${convertKelvin(weatherData?.main?.temp)}°F`
+              ? `${(weatherData?.main?.temp.toFixed(0))}°F`
               : 'No Tempurature'}
           </p>
           {weatherData ? (
