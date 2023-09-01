@@ -1,5 +1,66 @@
 import { useEffect, useState } from 'react'
-// import './App.css'
+
+/**
+ * @typedef {Object} Coordinates
+ * @property {number} lon - City geo location, longitude
+ * @property {number} lat - City geo location, latitude
+ */
+
+/**
+ * @typedef {Object} Weather
+ * @property {number} id - Weather condition id
+ * @property {string} main - Group of weather parameters (Rain, Snow, Extreme etc.)
+ * @property {string} description - Weather condition within the group
+ * @property {string} icon - Weather icon id
+ */
+
+/**
+ * @typedef {Object} Main
+ * @property {number} temp - Temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+ * @property {number} feels_like - Temperature. This temperature parameter accounts for the human perception of weather. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+ * @property {number} temp_min - Minimum temperature at the moment of calculation. This is minimal currently observed temperature (within large megalopolises and urban areas). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+ * @property {number} temp_max - Maximum temperature at the moment of calculation. This is maximal currently observed temperature (within large megalopolises and urban areas). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+ * @property {number} pressure - Atmospheric pressure on the sea level, hPa
+ * @property {number} humidity - Humidity, %
+ */
+
+/**
+ * @typedef {Object} Wind
+ * @property {number} speed - Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour.
+ * @property {number} deg - Wind direction, degrees (meteorological)
+ */
+
+/**
+ * @typedef {Object} Clouds
+ * @property {number} all - Cloudiness, %
+ */
+
+/**
+ * @typedef {Object} Sys
+ * @property {number} type - Internal parameter
+ * @property {number} id - Internal parameter
+ * @property {string} country - Country code (GB, JP etc.)
+ * @property {number} sunrise - Sunrise time, unix, UTC
+ * @property {number} sunset - Sunset time, unix, UTC
+ */
+
+/**
+ * The complete Triforce, or one or more components of the Triforce.
+ * @typedef {Object} WeatherResponse
+ * @property {Coordinates} coord -
+ * @property {Weather[]} weather -
+ * @property {string} base - Internal parameter
+ * @property {Main} main -
+ * @property {number} visibility - Visibility, meter. The maximum value of the visibility is 10 km
+ * @property {Wind} wind -
+ * @property {Clouds} clouds -
+ * @property {number} dt - Time of data calculation, unix, UTC
+ * @property {Sys} sys -
+ * @property {number} timezone - Shift in seconds from UTC
+ * @property {number} id -  City ID
+ * @property {string} name - City name
+ * @property {number} cod - Internal parameter
+ */
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 const ipapi = 'https://ipapi.co/json/'
@@ -7,7 +68,9 @@ const weatherapi = 'https://api.openweathermap.org/data/2.5/weather'
 
 function App() {
   const [ipData, setIpData] = useState()
-  const [weatherData, setWeatherData] = useState()
+  const [weatherData, setWeatherData] = useState(
+    /** @type {WeatherResponse} */ (null)
+  )
 
   // This will run once when the page loads
   // Get the user's IP Info and set it to ipData state variable
