@@ -66,8 +66,6 @@ const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 const ipapi = 'https://ipapi.co/json/'
 const weatherapi = 'https://api.openweathermap.org/data/2.5/weather'
 
-
-
 function App() {
   const [ipData, setIpData] = useState()
   const [weatherData, setWeatherData] = useState(
@@ -126,7 +124,7 @@ function App() {
    * @param {Number} temp - the temperature to convert
    * @returns {Number | undefined} - the converted temperature
    */
-  
+
   return (
     <div>
       <h1>Just Weather ☀️</h1>
@@ -137,6 +135,10 @@ function App() {
 
           <p>Latitude: {ipData?.latitude ?? 'No Latitude'}</p>
           <p>Longitude: {ipData?.longitude ?? 'No Longitude'}</p>
+          <img src={weatherData?.weather[0]?.icon
+              ? `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
+              : null}/>
+          <p>Description: {weatherData?.weather[0]?.description ?? 'No Data'}</p>
         </div>
 
         <div>
@@ -144,7 +146,7 @@ function App() {
           <p>
             Temperature:{' '}
             {weatherData?.main?.temp
-              ? `${(weatherData?.main?.temp.toFixed(0))}°F`
+              ? `${weatherData?.main?.temp.toFixed(0)}°F`
               : 'No Tempurature'}
           </p>
           {weatherData ? (
