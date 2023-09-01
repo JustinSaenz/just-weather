@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import './App.css'
+// import './App.css'
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 const ipapi = 'https://ipapi.co/json/'
