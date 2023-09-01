@@ -13,6 +13,11 @@ function App() {
   // Get the user's IP Info and set it to ipData state variable
   useEffect(() => {
     // get the user's IP Information
+    /**
+     * Fetch client's location information using their IP Address
+     * @see https://ipapi.co/api/#introduction
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+     */
     const fetchapi = async () => {
       console.log('Fetching ip')
 
