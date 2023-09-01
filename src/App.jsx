@@ -83,6 +83,11 @@ function App() {
               ? `${convertKelvin(weatherData?.main?.temp)}°F`
               : 'No Tempurature'}
           </p>
+          {weatherData ? (
+            <pre>
+              <code>{JSON.stringify(weatherData, null, 2)}</code>
+            </pre>
+          ) : null}
         </div>
       </div>
     </div>
